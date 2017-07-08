@@ -1,0 +1,12 @@
+<html>
+  <head>
+    <title>Admin | Mission Control</title>
+  </head>
+  <body>
+    <form action="/logout" method="post">
+      {% csrf_token %}
+      <input type="submit" value='Logout'>
+    </form>
+    <h1>Butter</h1>
+  </body>
+</html>

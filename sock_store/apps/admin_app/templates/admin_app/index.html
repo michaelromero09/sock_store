@@ -1,0 +1,27 @@
+<html>
+  <head>
+    <title>Admin Login</title>
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'admin_app/css/style.css' %}">
+  </head>
+  <body>
+    {% for message in messages %}
+      <p>{{ message }}</p>
+    {% endfor %}
+    <h1>Admin Login</h1>
+    <form action="/login" method='post'>
+      {% csrf_token %}
+      Email: <input type="text" name='email'>
+      Password: <input type="password" name='password'>
+      <input type="submit" value='Login'>
+    </form>
+    <!--<h1>Register Admin</h1>
+    <form action="/register" method='post'>
+      {% csrf_token %}
+      Email: <input type="text" name='email'>
+      Password: <input type="password" name='password'>
+      Confirm Password: <input type="password" name='confirm_pw'>
+      <input type="submit" value='Register'>
+    </form>-->
+  </body>
+</html>
