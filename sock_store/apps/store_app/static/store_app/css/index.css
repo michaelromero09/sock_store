@@ -52,7 +52,9 @@ body {
 
 .errors {
     height: 50px;
+    color: red;
 }
+
 
 .navbar-default {
     display: inline-block;

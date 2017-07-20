@@ -57,7 +57,6 @@ def submit_registration(request):
 def login_user(request):
     email = request.POST['email']
     password = request.POST['password']
-    #Return an 'invalid login' error message.
     errors = Users.objects.login_validator(request.POST)
     if len(errors):
         for tag,error in errors.iteritems():
