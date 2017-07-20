@@ -17,7 +17,7 @@
             </div>
             <div class="login">
                 <h3>Login</h3>
-                <form class="form-inline" action="/login_user" method='post'>
+                <form class="form-inline" action="{% url 'login_submit' %}" method='post'>
                     {% csrf_token %} 
                     <div class="form-group">
                         <label for="">Email:</label> 
@@ -34,27 +34,16 @@
                     </div>
                 </form>
             </div>
-            <div class="navbar text-center">
-                <a href="http://localhost:8000"> - Home </a>
-                <a href="http://localhost:8000/about"> - About Us </a>
-                <a href="http://localhost:8000/products"> - Products </a>
-                <a href="http://localhost:8000/products/sale"> - SALE </a>
-                <a href="http://localhost:8000/cart"> - Your Cart</a>
-                <a href="http://localhost:8000/contact"> - Contact Us -</a>
-            </div>
-            <!--<div class="dropdown">
-                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true">
-                    MENU
-                    <span class="caret"></span>
-                    </button>
-                <ul class="dropdown-menu" aria-labelledby="menu">
-                    <li><a href="http://localhost:8000"> - Home </a></li>
-                    <li><a href="http://localhost:8000/about"></li>
-                    <li><a href="http://localhost:8000/products"></li>
-                    <li><a href="http://localhost:8000/cart"></li>
-                    <li><a href="http://localhost:8000/contact"></li>
+            <div class="navbar navbar-default text-center col-md-12">
+                <ul class="nav navbar-nav">
+                    <li><a href="{% url 'home' %}"> - Home </a></li>
+                    <li><a href="{% url 'about' %}"> - About Us </a></li>
+                    <li><a href="{% url 'products_main' %}"> - Products </a></li>
+                    <li><a href="{% url 'products_sale' %}"> - SALE </a></li>
+                    <li><a href="{% url 'cart' %}"> - Your Cart</a></li>
+                    <li><a href="{% url 'contact' %}"> - Contact Us -</a></li>
                 </ul>
-            </div>-->
+            </div>
         </div>
         <div class="main-body">
             <div class="text-center">
@@ -65,7 +54,7 @@
                 {% endfor %}
                 </div>
             </div>
-            <form class="form-horizontal" action="/submit_registration" method='post'>
+            <form class="form-horizontal" action="{% url 'subit_reg' %}" method='post'>
                 {% csrf_token %}
                 <h3>User Information</h3>
                 <div class="form-group">
@@ -205,7 +194,7 @@
             <h3>Cool Cat Socks</h3>
             <div class="subscribe">
                 <p>Subscribe to stay updated on new product, sales, and more!</p>
-                <form action="/subcribe" method="POST">
+                <form action="{% url 'subscribe_submit' %}" method="POST">
                     {% csrf_token %}
                     <input type="text" name="email" value="Enter email here">
                     <input type="submit" value="Subscribe">

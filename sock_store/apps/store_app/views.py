@@ -1,12 +1,24 @@
 from django.shortcuts import render, HttpResponse, redirect
 from django.contrib import messages
 from .models import Users, Addresses
+from django.core.urlresolvers import reverse
 import bcrypt
 from django.contrib.auth import authenticate, login
 
 # Create your views here.
 def index(request):
-    return render(request, 'store_app/index.html')
+    if 'id' in request.session:
+        user = Users.objects.get(id= request.session['id'])
+        context = {
+            'user' : user
+        }
+        return render(request, 'store_app/index.html', context)
+    else: 
+        return render(request, 'store_app/index.html')
+
+def logout(request):
+    del request.session['id']
+    return redirect(reverse('home'))
 
 def register(request):
     return render(request, 'store_app/register.html')
@@ -33,16 +45,14 @@ def submit_registration(request):
                 messages.add_message(request, messages.ERROR, str(user_error))
             for tag,address_error in address_errors.iteritems():
                 messages.add_message(request, messages.ERROR, str(address_error))
-            return redirect('/register')
+            return redirect(reverse('reg_form'))
         else: 
             address = Addresses.objects.create(name = name, street = street, street2 = street2, city = city, state = state, zip_code = zip_code )
-            print 'WAKKA' * 10
-            print address
             user = Users.objects.create(first_name = first_name, last_name = last_name, email = email, phone_num = phone_num, password = hashed_password, address = address)
             messages.add_message(request, messages.SUCCESS, "Successfully registered and logged in!")
             request.session['id'] = Users.objects.get(email = email).id
             print 'success!!!!'
-            return redirect('/')
+            return redirect(reverse('home'))
 
 def login_user(request):
     email = request.POST['email']
@@ -52,27 +62,21 @@ def login_user(request):
     if len(errors):
         for tag,error in errors.iteritems():
             messages.add_message(request, messages.ERROR, str(error))
-        return redirect('/')
+        return redirect(reverse('home'))
     else:
         request.session['id'] = Users.objects.get(email = email).id
         messages.add_message(request, messages.SUCCESS, "Successfully logged in!")
-        return redirect('/')
+        return redirect(reverse('home'))
 
 def logout(request):
     del request.session['id']
-    return redirect ('/')
+    return redirect (reverse('home'))
 
 def subscribe(request):
-    return redirect('/')
+    return redirect(reverse('home'))
 
 def about(request):
     return render(request, 'store_app/about.html')
-
-def products(request):
-    return render(request, 'store_app/products.html')
-
-def sale(request):
-    return render(request, 'store_app/sale.html')
 
 def cart(request):
     return render(request, 'store_app/cart.html')
