@@ -17,6 +17,8 @@ from django.conf.urls import url, include
 from django.contrib import admin
 
 urlpatterns = [
-    url(r'^', include('apps.admin_app.urls')),
+    url(r'^', include('apps.store_app.urls')),
+    url(r'^admin/', include('apps.admin_app.urls')),
     url(r'^admin/products/', include('apps.manage_products.urls')),
+    url(r'^admin/users/', include('apps.manage_users.urls')),
 ]

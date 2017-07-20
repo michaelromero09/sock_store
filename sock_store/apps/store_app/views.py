@@ -35,8 +35,10 @@ def submit_registration(request):
                 messages.add_message(request, messages.ERROR, str(address_error))
             return redirect('/register')
         else: 
-            user = Users.objects.create(first_name = first_name, last_name = last_name, email = email, phone_num = phone_num, password = hashed_password)
             address = Addresses.objects.create(name = name, street = street, street2 = street2, city = city, state = state, zip_code = zip_code )
+            print 'WAKKA' * 10
+            print address
+            user = Users.objects.create(first_name = first_name, last_name = last_name, email = email, phone_num = phone_num, password = hashed_password, address = address)
             messages.add_message(request, messages.SUCCESS, "Successfully registered and logged in!")
             request.session['id'] = Users.objects.get(email = email).id
             print 'success!!!!'

@@ -11,7 +11,7 @@
         <p>{{ message }}</p>
       {% endfor %}
       <h1>Admin Login</h1>
-      <form action="/login" method='post'>
+      <form action="{% url 'admin_login' %}" method='post'>
         {% csrf_token %}
         <div>
           <label for="email" class="col-sm-2 control-label">Email:</label>
@@ -24,7 +24,7 @@
         <input class="btn btn-primary" type="submit" value='Login'>
       </form>
       <h1>Register Admin</h1>
-      <form action="/register_admin" method='post'>
+      <form action="{% url 'admin_register_admin' %}" method='post'>
         {% csrf_token %}
         <div>
           <label for="email" class="col-sm-2 control-label">First Name:</label>

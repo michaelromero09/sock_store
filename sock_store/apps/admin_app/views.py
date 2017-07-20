@@ -76,7 +76,7 @@ def edit_admin(request):
     admin.first_name = first_name
     admin.last_name = last_name
     admin.email = email
-    admin.password = password
+    admin.password = hashed_password
     admin.save()
     return redirect(reverse('admin_mission_control'))
 

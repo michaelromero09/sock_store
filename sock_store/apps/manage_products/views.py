@@ -3,7 +3,6 @@ from django.core.urlresolvers import reverse
 from django.contrib import messages
 from ..admin_app.models import Admins
 from .models import Products
-import bcrypt
 
 def get_all_products():
   return Products.objects.all()

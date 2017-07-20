@@ -31,9 +31,6 @@
           <td>{{ product.material }}</td>
           <td>{{ product.price }}</td>
           <td>{{ product.cost }}</td>
-            
-            <!-- CHANGE ALL THESE LINKS -->
-
           <td>
             <form action="{% url 'manage_products_delete_product' %}" method='post'>
               {% csrf_token %}
