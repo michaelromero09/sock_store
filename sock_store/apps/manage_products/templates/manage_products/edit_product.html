@@ -18,6 +18,14 @@
             <label for="name" class="control-label">Product Name: </label>
             <input class="form-control" type="text" name="name" value="{{product.name}}">
           </div>
+          <div class="checkbox">
+          <h5>Sizes: </h5>
+          {% for size in sizes %}
+            <label class="checkbox-inline">
+              <input type="checkbox" name="size_{{size.id}}" value={{ size.id }}><p>{{size.size}}</p>
+            </label>
+          {% endfor %}
+        </div>
           <div class="form-group">
             <label for="dept" class="control-label">Dept.: </label>
             <input class="form-control" type="text" name="dept" value="{{product.dept}}">
@@ -26,10 +34,25 @@
             <label for="style" class="control-label">Style: </label>
             <input class="form-control" type="text" name="style" value="{{product.style}}">
           </div>
-          <div class="form-group">
-            <label for="design" class="control-label">Design: </label>
-            <input class="form-control" type="text" name="design" value="{{product.design}}">
-          </div>
+          <h5>Design: </h5>
+            {% for design in designs %}
+              <div class="radio">
+                <label>
+                  <input type="radio" name="design" value="{{ design.id }}" checked>
+                  {{ design.design }}
+                </label>
+              </div>
+            {% endfor %}
+            <div class="radio">
+              <label>
+                <input type="radio" name="design" value="other" checked>
+                Other:
+              </label>
+            </div>
+            <div class="form-group">
+              <label for="other_design" class="control-label"></label>
+              <input class="form-control" type="text" name="other_design">
+            </div>
           <div class="form-group">
             <label for="material" class="control-label">Material: </label>
             <input class="form-control" type="text" name="material" value="{{product.material}}">
