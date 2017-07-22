@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'apps.store_app',
     'apps.products_app',
+    'apps.checkout',
     'apps.admin_app',
     'apps.manage_products',
     'apps.manage_users',

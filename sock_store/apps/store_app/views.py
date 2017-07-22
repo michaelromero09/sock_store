@@ -32,6 +32,7 @@ def login_user(request):
 
 def logout(request):
     del request.session['id']
+    del request.session['cart']
     return redirect(reverse('home'))
 
 def register(request):

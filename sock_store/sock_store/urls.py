@@ -22,4 +22,5 @@ urlpatterns = [
     url(r'^admin/products/', include('apps.manage_products.urls')),
     url(r'^admin/users/', include('apps.manage_users.urls')),
     url(r'^products/', include('apps.products_app.urls')),
+    url(r'^checkout/', include('apps.checkout.urls')),
 ]
