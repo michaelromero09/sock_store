@@ -9,6 +9,5 @@ urlpatterns = [
     url(r'^logout$', views.logout, name ='logout'),
     url(r'^subscribe$', views.subscribe, name ='subscribe_submit'),
     url(r'^about$', views.about, name ='about'),
-    url(r'^cart$', views.cart, name ='cart'),
     url(r'^contact$', views.contact, name ='contact'),
 ]

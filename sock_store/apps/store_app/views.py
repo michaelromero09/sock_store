@@ -16,6 +16,20 @@ def index(request):
     else: 
         return render(request, 'store_app/index.html')
 
+def login_user(request):
+    email = request.POST['email']
+    password = request.POST['password']
+    errors = Users.objects.login_validator(request.POST)
+    if len(errors):
+        for tag,error in errors.iteritems():
+            messages.add_message(request, messages.ERROR, str(error))
+        return redirect(reverse('home'))
+    else:
+        request.session['id'] = Users.objects.get(email = email).id
+        request.session['cart'] = {}
+        messages.add_message(request, messages.SUCCESS, "Successfully logged in!")
+        return redirect(reverse('home'))
+
 def logout(request):
     del request.session['id']
     return redirect(reverse('home'))
@@ -51,25 +65,10 @@ def submit_registration(request):
             user = Users.objects.create(first_name = first_name, last_name = last_name, email = email, phone_num = phone_num, password = hashed_password, address = address)
             messages.add_message(request, messages.SUCCESS, "Successfully registered and logged in!")
             request.session['id'] = Users.objects.get(email = email).id
+            request.session['cart'] = {}
             print 'success!!!!'
             return redirect(reverse('home'))
 
-def login_user(request):
-    email = request.POST['email']
-    password = request.POST['password']
-    errors = Users.objects.login_validator(request.POST)
-    if len(errors):
-        for tag,error in errors.iteritems():
-            messages.add_message(request, messages.ERROR, str(error))
-        return redirect(reverse('home'))
-    else:
-        request.session['id'] = Users.objects.get(email = email).id
-        messages.add_message(request, messages.SUCCESS, "Successfully logged in!")
-        return redirect(reverse('home'))
-
-def logout(request):
-    del request.session['id']
-    return redirect (reverse('home'))
 
 def subscribe(request):
     return redirect(reverse('home'))

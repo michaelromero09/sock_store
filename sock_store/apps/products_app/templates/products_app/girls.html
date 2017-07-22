@@ -14,6 +14,7 @@
                 <li><a href="{% url 'about' %}"> - About Us </a></li>
                 <li><a href="{% url 'products_main' %}"> - Products </a></li>
                 <li><a href="{% url 'products_sale' %}"> - SALE </a></li>
+                <li><a href="{% url 'cart' %}"> - Your Cart</a></li>
                 <li><a href="{% url 'contact' %}"> - Contact Us -</a></li>
             </ul>
         </div>
@@ -27,7 +28,7 @@
                     <input type="radio" name="sock_category" value="womens"> Womens
                     <input type="radio" name="sock_category" value="mens"> Male
                     <input type="radio" name="sock_category" value="girls"> Girls
-                    <input type="radio" name="sock_category" value="boys"> Boys.
+                    <input type="radio" name="sock_category" value="boys"> Boys
                     <p>Shop Products by Styles:</p>
                     <input type="radio" name="sock_style" value="no_show"> No Show
                     <input type="radio" name="sock_style" value="ankle"> Ankle 
@@ -47,7 +48,7 @@
             </div>
         </div>
         <div class="products">
-            <h1>Shop All Cool Socks</h1>
+            <h1>Shop All Cool Girls Socks</h1>
             <div class="dept-links">
                 <a href="{% url 'products_womens' %}">WOMENS</a>
                 <a href="{% url 'products_mens' %}">MENS</a>
@@ -56,18 +57,14 @@
                 <a href="{% url 'products_sale' %}">SALE</a>
             </div>
             {% for product in products %}
-                <p>{{ product.name }}</p>
-                <p>${{ product.price }}</p>
-                <form action="/products/product/{{product.id}}" method="POST">
-                    {% csrf_token %}
-                    <input type="submit" value="View">
-                </form>
-                <form action="{% url 'add_to_cart' %}" method="POST">
-                    {% csrf_token %}
-                    <input type="hidden" name="id" value="{{product.id}}">
-                    <input type="submit" value="Add to Cart">
-                </form>
-            {% endfor %}.
+                <div class="product-box">
+                    <p>{{ product.name }}</p>
+                    <p>{{ product.style }}</p>
+                    <p>{{ product.design }}</p>
+                    <p>{{ product.material }}</p>
+                    <p>{{ product.price }}</p>
+                </div>
+            {% endfor %}
         </div>
     </div>
 </body>

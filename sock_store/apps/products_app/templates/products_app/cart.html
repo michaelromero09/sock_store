@@ -1,7 +1,7 @@
 <html>
 
 <head>
-    <title>Sock Homepage</title>
+    <title>Cart Page</title>
     {% load staticfiles %}
     <link rel="stylesheet" href="{% static 'store_app/css/index.css' %}" type="text/css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
@@ -42,7 +42,7 @@
                         <a href="">Account Details</a>  
                         <!--link account setting and add logic for cart and link to cart page!-->
                         <div class="cart">
-                            <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span><a href="{% url 'cart' %}">  Cart() </a> 
+                            <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span><a href="">  Cart() </a> 
                         </div>
                         <a href="{% url 'logout' %}" class="btn btn-primary btn-xs active" role="button">Logout</a>
                     </div>
@@ -52,45 +52,40 @@
                 <ul class="nav navbar-nav">
                     <li><a href="{% url 'home' %}"> - Home </a></li>
                     <li><a href="{% url 'about' %}"> - About Us </a></li>
-                    <!--<div class="dropdown">
-                        <button class="btn btn-default dropdown-toggle" id="products-drop-menu" type="button" data-toggle="dropdown" aria-haspopup="true">
-                            Products
-                            <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="products-drop-menu">
-                            <li><a href="#">Womens</a></li>
-                            <li><a href="#">Mens</a></li>
-                            <li><a href="#">Girls</a></li>
-                            <li><a href="#">Boys</a></li>
-                            <li><a href="#">Sale</a></li>
-                        </ul>
-                    </div>-->
                     <li><a href="{% url 'products_main' %}"> - Products </a></li>
                     <li><a href="{% url 'products_sale' %}"> - SALE </a></li>
                     <li><a href="{% url 'contact' %}"> - Contact Us -</a></li>
                 </ul>
             </div>
-            <div class="errors">
-                {% for message in messages %}
-                    <p>{{ message }}</p>
-                {% endfor %}
-            </div>
         </div>
-        <div class="main-body text-center">
-            <p>Socks website info paragraph....</p>
-            <div class="featured">
-                <h2>Featured Socks</h2>
-            </div>
-            <div class="new">
-                <h2>New Socks</h2>
-            </div>
-            <div class="inspiration">
-                <h2>Sock-sational Inspiration</h2>
-            </div>
-            <div class="shop-by">
-                <h2>Individual Pairs</h2>
-                <h2>Bundles of Socks</h2>
-            </div>
+        <div class="main-body">
+            {% if request.session.cart == None %}
+                <h2>Your cart is empty! Try adding some socks to your cart!</h2>
+            {% endif %}
+            {% if request.session.cart %}
+                {% for item in cart_items %}
+                    <img src="" alt="">
+                    <p>{{ item.name }}</p>
+                    <p>${{ item.price }}</p>
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <button type="button" class="quantity-left-minus btn btn-xs btn-number"  data-type="minus">
+                            <span class="glyphicon glyphicon-minus"></span>
+                            </button>
+                        </span>
+                        <input type="text" id="quantity" name="quantity" class="form-control input-number" value="{{request.session.cart.item.name}}" min="1" max="25">
+                        <span class="input-group-btn">
+                            <button type="button" class="quantity-right-plus btn btn-xs btn-number" data-type="plus">
+                            <span class="glyphicon glyphicon-plus"></span>
+                            </button>
+                        </span>
+                    </div>
+                    <p>Quantity: {{request.session.cart.item.name}}</p>
+                    <p></p>
+                    <p></p>
+                {% endfor %}
+            {% endif %}
+            <p>Total: ${{ total }}</p>
         </div>
         <div class="footer">
             <h3>Cool Cat Socks</h3>
