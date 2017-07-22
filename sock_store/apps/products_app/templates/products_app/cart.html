@@ -6,7 +6,8 @@
     <link rel="stylesheet" href="{% static 'store_app/css/index.css' %}" type="text/css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
         crossorigin="anonymous">
-    <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="{% static 'products_app/js/product.js' %}"></script>
 </head>
 
 <body>
@@ -42,7 +43,7 @@
                         <a href="">Account Details</a>  
                         <!--link account setting and add logic for cart and link to cart page!-->
                         <div class="cart">
-                            <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span><a href="">  Cart() </a> 
+                            <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span><a href="{% url 'cart' %}">  Cart({{item_total}}) </a> 
                         </div>
                         <a href="{% url 'logout' %}" class="btn btn-primary btn-xs active" role="button">Logout</a>
                     </div>
@@ -59,37 +60,37 @@
             </div>
         </div>
         <div class="main-body">
-            {% if request.session.cart == None %}
-                <h2>Your cart is empty! Try adding some socks to your cart!</h2>
+            {% if cart_is_empty %}
+                <h2 class="text-center">Your cart is empty! Try adding some socks to your cart!</h2>
             {% endif %}
-            {% if request.session.cart %}
-                {% for item in cart_items %}
-                    <img src="" alt="">
-                    <p>{{ item.name }}</p>
-                    <p>${{ item.price }}</p>
-                    <div class="input-group">
-                        <span class="input-group-btn">
-                            <button type="button" class="quantity-left-minus btn btn-xs btn-number"  data-type="minus">
-                            <span class="glyphicon glyphicon-minus"></span>
-                            </button>
-                        </span>
-                        <input type="text" id="quantity" name="quantity" class="form-control input-number" value="{{request.session.cart.item.name}}" min="1" max="25">
-                        <span class="input-group-btn">
-                            <button type="button" class="quantity-right-plus btn btn-xs btn-number" data-type="plus">
-                            <span class="glyphicon glyphicon-plus"></span>
-                            </button>
-                        </span>
-                    </div>
-                    <p>Quantity: {{request.session.cart.item.name}}</p>
-                    <div class="price-total">
-                    </div>
-                {% endfor %}
-                    <p>Product Price Total: ${{ total }}</p>
-                    <p> Shipping: $5.00</p> <!--FLAT shipping rate for now, may adjust later to be based off address state -->
-                    <p>Order Price Total: ${{order_total}}</p>
-                    <form action="{% url 'checkout_main' %}" method="POST">
-                        <input type="submit" value="Proceed to Checkout">
-                    </form>
+            {% for item in cart_items %}
+                <img src="" alt="">
+                <p>{{ item.name }}</p>
+                <p>${{ item.price }}</p>
+                <div class="input-group">
+                    <span class="input-group-btn">
+                        <button type="button" class="quantity-left-minus btn btn-xs btn-number"  data-type="minus">
+                        <span class="glyphicon glyphicon-minus"></span>
+                        </button>
+                    </span>
+                    <input type="text" id="quantity" name="quantity" class="form-control input-number" value="{{quantity}}" min="1" max="25">
+                    <span class="input-group-btn">
+                        <button type="button" class="quantity-right-plus btn btn-xs btn-number" data-type="plus">
+                        <span class="glyphicon glyphicon-plus"></span>
+                        </button>
+                    </span>
+                </div>
+                <p>Quantity: {{request.session.cart.item.name}}</p>
+                <div class="price-total">
+                </div>
+            {% endfor %}
+            {% if not cart_is_empty %}
+                <p>Product Price Total: ${{ total }}</p>
+                <p> Shipping: $5.00</p> <!--FLAT shipping rate for now, may adjust later to be based off address state -->
+                <p>Order Price Total: ${{order_total}}</p>
+                <form action="{% url 'checkout_main' %}" method="POST">
+                    <input type="submit" value="Proceed to Checkout">
+                </form>
             {% endif %}
         </div>
         <div class="footer">

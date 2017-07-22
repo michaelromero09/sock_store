@@ -6,44 +6,52 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 </head>
 <body>
-    <div class="header">
-        <a href="http://localhost:8000">Cool Cat Socks</a>
-        <div class="navbar navbar-default text-center col-md-12">
-            <ul class="nav navbar-nav">
-                <li><a href="{% url 'home' %}"> - Home </a></li>
-                <li><a href="{% url 'about' %}"> - About Us </a></li>
-                <li><a href="{% url 'products_main' %}"> - Products </a></li>
-                <li><a href="{% url 'products_sale' %}"> - SALE </a></li>
-                <li><a href="{% url 'contact' %}"> - Contact Us -</a></li>
-            </ul>
-        </div>
-    </div>
-    <div class="body">
-        <div class="side-bar">
-            <div class="shop-by">
-                <form>
-                    {% csrf_token %}
-                    <p>Shop Products by Department:</p>
-                    <input type="radio" name="sock_category" value="womens"> Womens
-                    <input type="radio" name="sock_category" value="mens"> Male
-                    <input type="radio" name="sock_category" value="girls"> Girls
-                    <input type="radio" name="sock_category" value="boys"> Boys.
-                    <p>Shop Products by Styles:</p>
-                    <input type="radio" name="sock_style" value="no_show"> No Show
-                    <input type="radio" name="sock_style" value="ankle"> Ankle 
-                    <input type="radio" name="sock_style" value="crew"> Crew
-                    <input type="radio" name="sock_style" value="knee+"> Knee-high and beyond
-                    <p>Shop Products by Price:</p>
-                    <input type="radio" name="sock_price" value="$2-"> $2 and under
-                    <input type="radio" name="sock_price" value="$-4.99"> $2-$4.99
-                    <input type="radio" name="sock_price" value="$5-9.99"> $5-$9.99
-                    <input type="radio" name="sock_price" value="$10+"> $10+
-                    <input type="radio" name="sock_price" value="sale"> SALE
-                    <p>View:</p>
-                    <input type="radio" name="pairs" value="pairs"> Pairs
-                    <input type="radio" name="bundles" value="bundles"> Bundles
-                    <input type="submit" value="FILTER">
-                </form>
+    <div class="container">
+        <div class="header">
+            <div class="LOGO">
+                <img src="{% static 'store_app/images/main_pic.jpg' %}" alt="Cool Cat Socks">
+                <a href="http://localhost:8000">Cool Cat Socks</a>
+            </div>
+            <div class="login">
+                {% if request.session.id == None %}
+                    <h2>Login</h2>
+                    <form class="form-inline" action="{% url 'login_submit' %}" method='post'>
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="">Email:</label>
+                            <input class="form-control" type="text" name='email'>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Password:</label>
+                            <input class="form-control" type="password" name='password'>
+                        </div>
+                        <div class="login-submit">
+                            <input type="submit" value='Login'>
+                            <p>|</p>
+                            <a href="http://localhost:8000/register">REGISTER</a>
+                        </div>
+                    </form>
+                {% endif %}
+                {% if request.session.id %}
+                    <div class="user-cart text-right">
+                        <p>logged in as: {{ user.first_name }}</p>
+                        <a href="">Account Details</a>  
+                        <!--link account setting and add logic for cart and link to cart page!-->
+                        <div class="cart">
+                            <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span><a href="{% url 'cart' %}">  Cart() </a> 
+                        </div>
+                        <a href="{% url 'logout' %}" class="btn btn-primary btn-xs active" role="button">Logout</a>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="navbar navbar-default text-center col-md-12">
+                <ul class="nav navbar-nav">
+                    <li><a href="{% url 'home' %}"> - Home </a></li>
+                    <li><a href="{% url 'about' %}"> - About Us </a></li>
+                    <li><a href="{% url 'products_main' %}"> - Products </a></li>
+                    <li><a href="{% url 'products_sale' %}"> - SALE </a></li>
+                    <li><a href="{% url 'contact' %}"> - Contact Us -</a></li>
+                </ul>
             </div>
         </div>
         <div class="products">
@@ -62,11 +70,13 @@
                     {% csrf_token %}
                     <input type="submit" value="View">
                 </form>
-                <form action="{% url 'add_to_cart' %}" method="POST">
-                    {% csrf_token %}
-                    <input type="hidden" name="id" value="{{product.id}}">
-                    <input type="submit" value="Add to Cart">
-                </form>
+                {% if request.session.id %}
+                    <form action="{% url 'add_to_cart' %}" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="id" value="{{product.id}}">
+                        <input type="submit" value="Add to Cart">
+                    </form>
+                {% endif %}
             {% endfor %}.
         </div>
     </div>
